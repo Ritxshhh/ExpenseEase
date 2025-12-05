@@ -99,7 +99,7 @@ router.post('/transactions', authenticateToken, async (req, res) => {
   try {
     const { amount, type, category, note, date } = req.body;
     const transaction = await prisma.transaction.create({
-      data: { amount: amount.toString(), type, category, note: note || '', date, userId: req.user.userId }
+      data: { amount: amount.toString(), type, category, note: note || '', date: new Date(date), userId: req.user.userId }
     });
     res.status(201).json({ ...transaction, amount: parseFloat(transaction.amount) });
   } catch (error) {
@@ -114,7 +114,7 @@ router.put('/transactions/:id', authenticateToken, async (req, res) => {
     const { amount, type, category, note, date } = req.body;
     const transaction = await prisma.transaction.update({
       where: { id: parseInt(id), userId: req.user.userId },
-      data: { amount: amount.toString(), type, category, note: note || '', date }
+      data: { amount: amount.toString(), type, category, note: note || '', date: new Date(date) }
     });
     res.json({ ...transaction, amount: parseFloat(transaction.amount) });
   } catch (error) {
@@ -151,7 +151,7 @@ router.post('/goals', authenticateToken, async (req, res) => {
   try {
     const { title, targetAmount, deadline } = req.body;
     const goal = await prisma.goal.create({
-      data: { title, targetAmount: targetAmount.toString(), deadline, userId: req.user.userId }
+      data: { title, targetAmount: targetAmount.toString(), deadline: new Date(deadline), userId: req.user.userId }
     });
     res.status(201).json({ ...goal, targetAmount: parseFloat(goal.targetAmount), currentAmount: parseFloat(goal.currentAmount) });
   } catch (error) {
@@ -166,7 +166,7 @@ router.put('/goals/:id', authenticateToken, async (req, res) => {
     const { title, targetAmount, currentAmount, deadline } = req.body;
     const goal = await prisma.goal.update({
       where: { id: parseInt(id), userId: req.user.userId },
-      data: { title, targetAmount: targetAmount.toString(), currentAmount: (currentAmount || 0).toString(), deadline }
+      data: { title, targetAmount: targetAmount.toString(), currentAmount: (currentAmount || 0).toString(), deadline: new Date(deadline) }
     });
     res.json({ ...goal, targetAmount: parseFloat(goal.targetAmount), currentAmount: parseFloat(goal.currentAmount) });
   } catch (error) {

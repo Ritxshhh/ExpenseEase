@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 3333;
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Backend is running!" });
+});
+
 app.use('/api', authRoutes);
 
 app.listen(PORT, () => {

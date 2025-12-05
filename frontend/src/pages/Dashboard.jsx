@@ -376,10 +376,10 @@ function Dashboard() {
               <h3>GST Calculator</h3>
               <div className="sip-inputs">
                 <input type="number" id="gst-amount" placeholder="Amount" className="tool-input" />
-                <select id="gst-rate" className="tool-input">
+                <select id="gst-rate" className="tool-input" defaultValue="18">
                   <option value="5">5% GST</option>
                   <option value="12">12% GST</option>
-                  <option value="18" selected>18% GST</option>
+                  <option value="18">18% GST</option>
                   <option value="28">28% GST</option>
                 </select>
                 <button className="calc-gst-btn">Calculate GST</button>

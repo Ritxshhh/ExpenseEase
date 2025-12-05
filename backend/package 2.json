@@ -1,0 +1,23 @@
+{
+  "name": "moneymind-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "npm install && prisma generate",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.15.3",
+    "prisma": "^5.22.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
