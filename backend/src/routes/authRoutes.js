@@ -185,4 +185,27 @@ router.delete('/goals/:id', authenticateToken, async (req, res) => {
   }
 });
 
+router.get('/monthly-spending', authenticateToken, async (req, res) => {
+  try {
+    const transactions = await prisma.transaction.findMany({
+      where: { userId: req.user.userId, type: 'expense' },
+      select: { amount: true, date: true }
+    });
+
+    const monthlyData = transactions.reduce((acc, t) => {
+      const month = new Date(t.date).toLocaleString('en-US', { month: 'short' });
+      acc[month] = (acc[month] || 0) + parseFloat(t.amount);
+      return acc;
+    }, {});
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const result = months.map(month => ({ month, amount: monthlyData[month] || 0 }));
+
+    res.json(result);
+  } catch (error) {
+    console.error('Monthly spending fetch error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default router;

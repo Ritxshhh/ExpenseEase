@@ -1,9 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client';
 import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
+
+const prisma = new PrismaClient();
 
 const app = express();
 const PORT = process.env.PORT || 3333;
@@ -17,6 +20,14 @@ app.get("/", (req, res) => {
 
 app.use('/api', authRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, async () => {
+  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+  
+  try {
+    await prisma.$connect();
+    console.log('✅ Database connected successfully!');
+    console.log('📊 Database URL:', process.env.DATABASE_URL.split('@')[1].split('/')[0]);
+  } catch (error) {
+    console.error('❌ Database connection failed:', error.message);
+  }
 });

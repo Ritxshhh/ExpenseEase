@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/profile.css';
 
 function Profile() {
   const [user, setUser] = useState({
@@ -99,110 +98,110 @@ function Profile() {
   };
 
   return (
-    <div className="profile-page">
-      <div className="page-header">
-        <h1>Profile</h1>
-        <p>Manage your account information</p>
-      </div>
+    <div className="min-h-screen bg-black p-8">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-slate-100 mb-2">Profile</h1>
+          <p className="text-slate-400">Manage your account information</p>
+        </div>
 
-      <div className="profile-container">
-        <div className="profile-card">
-          <div className="profile-photo-section">
-            <div className="photo-container">
+        <div className="bg-slate-800/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-slate-700/10">
+          <div className="flex justify-center mb-8">
+            <div className="relative">
               {photoPreview || user.profilePhoto ? (
                 <img
                   src={photoPreview || user.profilePhoto}
                   alt="Profile"
-                  className="profile-photo"
+                  className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
                 />
               ) : (
-                <div className="profile-initial">
+                <div className="w-32 h-32 rounded-full bg-blue-500 flex items-center justify-center text-white text-4xl font-bold">
                   {getInitial(user.name)}
                 </div>
               )}
               {isEditing && (
-                <label className="photo-upload">
+                <label className="absolute bottom-0 right-0 bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-600 transition-colors">
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handlePhotoChange}
                     hidden
                   />
-                  <span className="upload-icon">📷</span>
+                  <span>📷</span>
                 </label>
               )}
             </div>
           </div>
 
           {!isEditing ? (
-            <div className="profile-info">
-              <div className="info-item">
-                <label>Name</label>
-                <p>{user.name || 'Not provided'}</p>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">Name</label>
+                <p className="text-slate-100 text-lg">{user.name || 'Not provided'}</p>
               </div>
-              <div className="info-item">
-                <label>Email</label>
-                <p>{user.email || 'Not provided'}</p>
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">Email</label>
+                <p className="text-slate-100 text-lg">{user.email || 'Not provided'}</p>
               </div>
-              <div className="info-item">
-                <label>Phone</label>
-                <p>{user.phone || 'Not provided'}</p>
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">Phone</label>
+                <p className="text-slate-100 text-lg">{user.phone || 'Not provided'}</p>
               </div>
-              <div className="info-item">
-                <label>Bio</label>
-                <p>{user.bio || 'No bio available'}</p>
+              <div>
+                <label className="block text-slate-400 text-sm mb-1">Bio</label>
+                <p className="text-slate-100 text-lg">{user.bio || 'No bio available'}</p>
               </div>
-              <button className="edit-button" onClick={() => setIsEditing(true)}>
+              <button className="w-full mt-6 p-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/40 transition-all" onClick={() => setIsEditing(true)}>
                 Edit Profile
               </button>
             </div>
           ) : (
-            <div className="profile-form">
-              <div className="form-group">
-                <label>Name</label>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-slate-300 text-sm mb-2">Name</label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name || ''}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className="w-full p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 />
               </div>
-              <div className="form-group">
-                <label>Email</label>
+              <div>
+                <label className="block text-slate-300 text-sm mb-2">Email</label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email || ''}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className="w-full p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 />
               </div>
-              <div className="form-group">
-                <label>Phone</label>
+              <div>
+                <label className="block text-slate-300 text-sm mb-2">Phone</label>
                 <input
                   type="tel"
                   name="phone"
                   value={formData.phone || ''}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className="w-full p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                 />
               </div>
-              <div className="form-group">
-                <label>Bio</label>
+              <div>
+                <label className="block text-slate-300 text-sm mb-2">Bio</label>
                 <textarea
                   name="bio"
                   value={formData.bio || ''}
                   onChange={handleInputChange}
-                  className="form-textarea"
+                  className="w-full p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
                   rows="3"
                 />
               </div>
-              <div className="form-actions">
-                <button className="save-button" onClick={handleSave}>
+              <div className="flex gap-4">
+                <button className="flex-1 p-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold hover:shadow-xl hover:shadow-blue-500/40 transition-all" onClick={handleSave}>
                   Save Changes
                 </button>
-                <button className="cancel-button" onClick={handleCancel}>
+                <button className="flex-1 p-3.5 bg-slate-700 text-white rounded-lg font-semibold hover:bg-slate-600 transition-all" onClick={handleCancel}>
                   Cancel
                 </button>
               </div>
