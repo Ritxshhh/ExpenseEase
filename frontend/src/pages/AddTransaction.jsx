@@ -53,20 +53,20 @@ function AddTransaction() {
     <div className="min-h-screen bg-black p-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-slate-100 mb-2">Add Transaction</h1>
-          <p className="text-slate-400">Record your income and expenses</p>
+          <h1 className="text-4xl font-bold text-gray-100 mb-2">Add Transaction</h1>
+          <p className="text-gray-300">Record your income and expenses</p>
         </div>
 
-        <div className="bg-slate-800/80 backdrop-blur-xl p-8 rounded-2xl shadow-2xl border border-slate-700/10">
+        <div className="bg-gray-800  p-8 rounded-2xl shadow-2xl border border-gray-700">
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <div className="flex flex-col">
-              <label className="mb-2 text-slate-300 font-medium text-sm">Amount</label>
+              <label className="mb-2 text-gray-200 font-medium text-sm">Amount</label>
               <input
                 type="number"
                 name="amount"
                 value={formData.amount}
                 onChange={handleChange}
-                className="p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-slate-900/80 focus:ring-4 focus:ring-blue-500/10"
+                className="p-3.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-gray-800 focus:ring-4 focus:ring-blue-500"
                 placeholder="0.00"
                 step="0.01"
                 required
@@ -74,12 +74,12 @@ function AddTransaction() {
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-2 text-slate-300 font-medium text-sm">Type</label>
+              <label className="mb-2 text-gray-200 font-medium text-sm">Type</label>
               <select
                 name="type"
                 value={formData.type}
                 onChange={handleChange}
-                className="p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-slate-900/80 focus:ring-4 focus:ring-blue-500/10"
+                className="p-3.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-gray-800 focus:ring-4 focus:ring-blue-500"
                 required
               >
                 <option value="expense">Expense</option>
@@ -88,43 +88,43 @@ function AddTransaction() {
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-2 text-slate-300 font-medium text-sm">Category</label>
+              <label className="mb-2 text-gray-200 font-medium text-sm">Category</label>
               <input
                 type="text"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-slate-900/80 focus:ring-4 focus:ring-blue-500/10"
+                className="p-3.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-gray-800 focus:ring-4 focus:ring-blue-500"
                 placeholder="e.g., Food, Transport, Salary"
                 required
               />
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-2 text-slate-300 font-medium text-sm">Date</label>
+              <label className="mb-2 text-gray-200 font-medium text-sm">Date</label>
               <input
                 type="date"
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-slate-900/80 focus:ring-4 focus:ring-blue-500/10"
+                className="p-3.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-gray-800 focus:ring-4 focus:ring-blue-500"
                 required
               />
             </div>
 
             <div className="flex flex-col">
-              <label className="mb-2 text-slate-300 font-medium text-sm">Note</label>
+              <label className="mb-2 text-gray-200 font-medium text-sm">Note</label>
               <textarea
                 name="note"
                 value={formData.note}
                 onChange={handleChange}
-                className="p-3.5 bg-slate-900/60 border border-slate-700/20 rounded-lg text-slate-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-slate-900/80 focus:ring-4 focus:ring-blue-500/10"
+                className="p-3.5 bg-gray-800 border border-gray-700 rounded-lg text-gray-100 transition-all focus:outline-none focus:border-blue-500 focus:bg-gray-800 focus:ring-4 focus:ring-blue-500"
                 placeholder="Optional description..."
                 rows="3"
               />
             </div>
 
-            <button type="submit" className="mt-2 p-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold cursor-pointer transition-all shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed" disabled={loading}>
+            <button type="submit" className="mt-2 p-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-semibold cursor-pointer transition-all shadow-lg shadow-blue-500 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled={loading}>
               {loading ? 'Adding...' : 'Add Transaction'}
             </button>
           </form>
