@@ -83,12 +83,37 @@ router.get('/profile', authenticateToken, async (req, res) => {
 
 router.get('/transactions', authenticateToken, async (req, res) => {
   try {
-    const transactions = await prisma.transaction.findMany({
-      where: { userId: req.user.userId },
-      orderBy: { createdAt: 'desc' }
+    const { page = '1', limit = '10', type, sortBy = 'date', order = 'desc' } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    const where = { userId: req.user.userId };
+    if (type && type !== 'all') where.type = type;
+    
+    const orderByMap = {
+      date: { date: order },
+      amount: { amount: order },
+      category: { category: order }
+    };
+    
+    const [transactions, total] = await Promise.all([
+      prisma.transaction.findMany({
+        where,
+        orderBy: orderByMap[sortBy] || { date: 'desc' },
+        skip,
+        take: parseInt(limit)
+      }),
+      prisma.transaction.count({ where })
+    ]);
+    
+    res.json({
+      transactions: transactions.map(t => ({ ...t, amount: parseFloat(t.amount) })),
+      pagination: {
+        total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil(total / parseInt(limit))
+      }
     });
-    const formattedTransactions = transactions.map(t => ({ ...t, amount: parseFloat(t.amount) }));
-    res.json(formattedTransactions);
   } catch (error) {
     console.error('Transactions fetch error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -135,12 +160,49 @@ router.delete('/transactions/:id', authenticateToken, async (req, res) => {
 
 router.get('/goals', authenticateToken, async (req, res) => {
   try {
-    const goals = await prisma.goal.findMany({
-      where: { userId: req.user.userId },
-      orderBy: { createdAt: 'desc' }
+    const { page = '1', limit = '10', status, sortBy = 'createdAt', order = 'desc' } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    
+    const where = { userId: req.user.userId };
+    
+    const orderByMap = {
+      createdAt: { createdAt: order },
+      deadline: { deadline: order },
+      targetAmount: { targetAmount: order },
+      title: { title: order }
+    };
+    
+    const [goals, total] = await Promise.all([
+      prisma.goal.findMany({
+        where,
+        orderBy: orderByMap[sortBy] || { createdAt: 'desc' },
+        skip,
+        take: parseInt(limit)
+      }),
+      prisma.goal.count({ where })
+    ]);
+    
+    let formattedGoals = goals.map(g => ({
+      ...g,
+      targetAmount: parseFloat(g.targetAmount),
+      currentAmount: parseFloat(g.currentAmount),
+      progress: (parseFloat(g.currentAmount) / parseFloat(g.targetAmount)) * 100,
+      status: parseFloat(g.currentAmount) >= parseFloat(g.targetAmount) ? 'completed' : new Date(g.deadline) < new Date() ? 'overdue' : 'active'
+    }));
+    
+    if (status) {
+      formattedGoals = formattedGoals.filter(g => g.status === status);
+    }
+    
+    res.json({
+      goals: formattedGoals,
+      pagination: {
+        total: status ? formattedGoals.length : total,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        totalPages: Math.ceil((status ? formattedGoals.length : total) / parseInt(limit))
+      }
     });
-    const formattedGoals = goals.map(g => ({ ...g, targetAmount: parseFloat(g.targetAmount), currentAmount: parseFloat(g.currentAmount) }));
-    res.json(formattedGoals);
   } catch (error) {
     console.error('Goals fetch error:', error);
     res.status(500).json({ error: 'Internal server error' });

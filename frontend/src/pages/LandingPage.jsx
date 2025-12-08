@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { FaStar } from 'react-icons/fa';
 
 function LandingPage() {
   return (
@@ -77,7 +78,9 @@ function LandingPage() {
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-800  p-8 rounded-xl border border-gray-700">
-              <div className="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+              <div className="text-2xl mb-4 flex gap-1 text-yellow-400">
+                <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+              </div>
               <p className="text-gray-200 mb-6">"Started using this in college when I was broke. Now I have an emergency fund! Still can't believe it."</p>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">A</div>
@@ -89,7 +92,9 @@ function LandingPage() {
             </div>
             
             <div className="bg-gray-800  p-8 rounded-xl border border-gray-700">
-              <div className="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+              <div className="text-2xl mb-4 flex gap-1 text-yellow-400">
+                <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+              </div>
               <p className="text-gray-200 mb-6">"My wife asked how I suddenly got good with money. I showed her this app. Now we both use it."</p>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">R</div>
@@ -101,7 +106,9 @@ function LandingPage() {
             </div>
             
             <div className="bg-gray-800  p-8 rounded-xl border border-gray-700">
-              <div className="text-2xl mb-4">⭐⭐⭐⭐⭐</div>
+              <div className="text-2xl mb-4 flex gap-1 text-yellow-400">
+                <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+              </div>
               <p className="text-gray-200 mb-6">"Realized I was spending ₹12k/month on food delivery. This app was a wake-up call I needed."</p>
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">S</div>

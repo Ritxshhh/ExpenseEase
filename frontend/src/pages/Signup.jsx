@@ -26,13 +26,13 @@ function Signup() {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.password) {
-      setMessage('Oops! Please fill in all the fields 😅');
+      setMessage('Oops! Please fill in all the fields');
       setMessageType('error');
       return;
     }
 
     if (!validateEmail(formData.email)) {
-      setMessage('That email looks a bit off. Mind double-checking? 📧');
+      setMessage('That email looks a bit off. Mind double-checking?');
       setMessageType('error');
       return;
     }
@@ -50,11 +50,11 @@ function Signup() {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        setMessage("You're in! Welcome aboard 🎉");
+        setMessage("You're in! Welcome aboard!");
         setMessageType('success');
         setTimeout(() => navigate('/dashboard'), 1500);
       } else {
-        setMessage(data.error || 'Something went wrong. Give it another shot? 🤔');
+        setMessage(data.error || 'Something went wrong. Give it another shot?');
         setMessageType('error');
       }
     } catch (error) {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaCamera } from 'react-icons/fa';
 
 function Profile() {
   const [user, setUser] = useState({
@@ -127,7 +128,7 @@ function Profile() {
                     onChange={handlePhotoChange}
                     hidden
                   />
-                  <span>📷</span>
+                  <FaCamera className="text-white" />
                 </label>
               )}
             </div>

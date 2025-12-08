@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { FaHandPeace, FaMoneyBillWave, FaChartLine, FaChartBar, FaExchangeAlt, FaCalculator } from 'react-icons/fa';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -30,10 +31,11 @@ function Dashboard() {
       
       if (response.ok) {
         const data = await response.json();
-        setTransactions(data);
+        const transactionsArray = Array.isArray(data) ? data : (data.transactions || []);
+        setTransactions(transactionsArray);
         
-        const income = data.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
-        const expense = data.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+        const income = transactionsArray.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+        const expense = transactionsArray.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
         setSummaryData({
           income,
           expense,
@@ -54,9 +56,10 @@ function Dashboard() {
       
       if (response.ok) {
         const data = await response.json();
+        const transactionsArray = Array.isArray(data) ? data : (data.transactions || []);
         const monthlyData = {};
         
-        data.forEach(t => {
+        transactionsArray.forEach(t => {
           const month = new Date(t.date).toLocaleString('en-US', { month: 'short' });
           if (!monthlyData[month]) {
             monthlyData[month] = { month, income: 0, expense: 0 };
@@ -98,7 +101,9 @@ function Dashboard() {
       setCalcDisplay('');
     } else if (value === '=') {
       try {
-        setCalcDisplay(eval(calcDisplay.replace(/×/g, '*').replace(/÷/g, '/')).toString());
+        const expression = calcDisplay.replace(/×/g, '*').replace(/÷/g, '/');
+        const result = Function('"use strict"; return (' + expression + ')')();
+        setCalcDisplay(result.toString());
       } catch {
         setCalcDisplay('Error');
       }
@@ -192,7 +197,7 @@ function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-2xl font-bold text-gray-100">Hey {user?.name || 'there'}! 👋</h1>
+              <h1 className="text-2xl font-bold text-gray-100 flex items-center gap-2">Hey {user?.name || 'there'}! <FaHandPeace className="text-yellow-400" /></h1>
               <p className="text-gray-300 text-sm">Here's what's happening with your money</p>
             </div>
             <div className="flex items-center gap-6">
@@ -237,17 +242,17 @@ function Dashboard() {
           <div className="bg-green-500/10 p-6 rounded-xl border border-green-500">
             <div className="text-green-400 text-sm font-medium mb-2">Money In</div>
             <div className="text-3xl font-bold text-gray-100 mb-2">₹{summaryData.income.toLocaleString('en-IN')}</div>
-            <div className="text-green-400/70 text-sm">The good stuff 💰</div>
+            <div className="text-green-400/70 text-sm flex items-center gap-1">The good stuff <FaMoneyBillWave /></div>
           </div>
           <div className="bg-red-500/10 p-6 rounded-xl border border-red-500">
             <div className="text-red-400 text-sm font-medium mb-2">Money Out</div>
             <div className="text-3xl font-bold text-gray-100 mb-2">₹{summaryData.expense.toLocaleString('en-IN')}</div>
-            <div className="text-red-400/70 text-sm">Where it all goes 🛒</div>
+            <div className="text-red-400/70 text-sm">Where it all goes</div>
           </div>
           <div className="bg-blue-500/10 p-6 rounded-xl border border-blue-500">
             <div className="text-blue-400 text-sm font-medium mb-2">What's Left</div>
             <div className="text-3xl font-bold text-gray-100 mb-2">₹{summaryData.balance.toLocaleString('en-IN')}</div>
-            <div className="text-blue-400/70 text-sm">{summaryData.balance > 0 ? 'Looking good! 📈' : 'Time to budget 📊'}</div>
+            <div className="text-blue-400/70 text-sm flex items-center gap-1">{summaryData.balance > 0 ? <><span>Looking good!</span> <FaChartLine /></> : <><span>Time to budget</span> <FaChartBar /></>}</div>
           </div>
         </section>
 
@@ -300,19 +305,19 @@ function Dashboard() {
           <h2 className="text-2xl font-bold text-gray-100 mb-6">Financial Tools</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <button onClick={() => setActiveDialog('converter')} className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition-all text-left">
-              <div className="text-4xl mb-3">💱</div>
+              <div className="text-4xl mb-3"><FaExchangeAlt className="text-green-400" /></div>
               <h3 className="text-lg font-semibold text-gray-100 mb-2">Currency Converter</h3>
               <p className="text-gray-300 text-sm">Convert between INR and USD</p>
             </button>
 
             <button onClick={() => setActiveDialog('calculator')} className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition-all text-left">
-              <div className="text-4xl mb-3">🧮</div>
+              <div className="text-4xl mb-3"><FaCalculator className="text-purple-400" /></div>
               <h3 className="text-lg font-semibold text-gray-100 mb-2">Calculator</h3>
               <p className="text-gray-300 text-sm">Quick calculations</p>
             </button>
 
             <button onClick={() => setActiveDialog('sip')} className="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 transition-all text-left">
-              <div className="text-4xl mb-3">📈</div>
+              <div className="text-4xl mb-3"><FaChartLine className="text-blue-400" /></div>
               <h3 className="text-lg font-semibold text-gray-100 mb-2">SIP Calculator</h3>
               <p className="text-gray-300 text-sm">Plan your investments</p>
             </button>
@@ -324,9 +329,9 @@ function Dashboard() {
             <div className="bg-gray-800 rounded-xl border border-gray-700 p-6 shadow-sm max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-semibold text-gray-100">
-                  {activeDialog === 'converter' && '💱 Currency Converter'}
-                  {activeDialog === 'calculator' && '🧮 Calculator'}
-                  {activeDialog === 'sip' && '📈 SIP Calculator'}
+                  {activeDialog === 'converter' && <span className="flex items-center gap-2"><FaExchangeAlt /> Currency Converter</span>}
+                  {activeDialog === 'calculator' && <span className="flex items-center gap-2"><FaCalculator /> Calculator</span>}
+                  {activeDialog === 'sip' && <span className="flex items-center gap-2"><FaChartLine /> SIP Calculator</span>}
                 </h3>
                 <button onClick={() => setActiveDialog(null)} className="text-gray-300 hover:text-gray-100 text-2xl">&times;</button>
               </div>
